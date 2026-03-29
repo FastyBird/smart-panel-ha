@@ -1,0 +1,38 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Start the FastyBird Smart Panel backend
+# ==============================================================================
+
+declare log_level
+declare token_secret
+
+log_level=$(bashio::config 'log_level')
+token_secret=$(bashio::config 'token_secret')
+
+# Generate a random token secret if not provided
+if bashio::var.is_empty "${token_secret}"; then
+    token_secret=$(head -c 32 /dev/urandom | base64 | tr -d '/+=' | head -c 32)
+    bashio::log.info "Generated random token secret"
+fi
+
+export NODE_ENV="production"
+export FB_BACKEND_PORT="3000"
+export FB_APP_HOST="0.0.0.0"
+export FB_CONFIG_PATH="/data/config"
+export FB_DB_PATH="/data/db"
+export FB_ADMIN_UI_PATH="/app/public"
+export FB_TOKEN_SECRET="${token_secret}"
+export FB_LOG_LEVEL="${log_level}"
+
+# Make HA Supervisor token available to the backend
+export SUPERVISOR_TOKEN="${SUPERVISOR_TOKEN:-}"
+
+# Ensure data directories exist
+mkdir -p /data/db /data/config
+
+bashio::log.info "Starting FastyBird Smart Panel..."
+bashio::log.info "Log level: ${log_level}"
+
+cd /app || bashio::exit.nok "Could not change to app directory"
+exec node dist/main.js

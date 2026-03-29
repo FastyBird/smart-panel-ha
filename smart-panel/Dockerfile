@@ -36,7 +36,7 @@ WORKDIR /build/apps/backend
 RUN pnpm install --prod --ignore-scripts
 
 # =============================================================================
-# Stage 2: Production image
+# Stage 2: Production image using Home Assistant community base
 # =============================================================================
 FROM ${BUILD_FROM}
 
@@ -44,10 +44,8 @@ FROM ${BUILD_FROM}
 RUN apk add --no-cache \
     nodejs \
     npm \
-    sqlite \
-    bash \
-    jq \
-    curl
+    nginx \
+    sqlite
 
 WORKDIR /app
 
@@ -56,15 +54,21 @@ COPY --from=builder /build/apps/backend/dist ./dist
 COPY --from=builder /build/apps/backend/node_modules ./node_modules
 COPY --from=builder /build/apps/backend/package.json ./package.json
 
-# Copy built admin UI to be served as static files
+# Copy built admin UI to be served by the backend
 COPY --from=builder /build/apps/admin/dist ./public
 
-# Create data directories
+# Create persistent data directories
 RUN mkdir -p /data/db /data/config
 
-# Copy entrypoint
-COPY run.sh /run.sh
-RUN chmod a+x /run.sh
+# Copy rootfs overlay (s6-overlay services, nginx config)
+COPY rootfs /
+
+# Ensure all service scripts are executable
+RUN chmod a+x \
+    /etc/s6-overlay/s6-rc.d/init-nginx/run \
+    /etc/s6-overlay/s6-rc.d/smart-panel/run \
+    /etc/s6-overlay/s6-rc.d/smart-panel/finish \
+    /etc/s6-overlay/s6-rc.d/nginx/run
 
 # Labels for Home Assistant
 LABEL \
@@ -72,7 +76,3 @@ LABEL \
     io.hass.description="A customizable display interface for visualizing and controlling smart homes" \
     io.hass.type="addon" \
     io.hass.version="dev"
-
-EXPOSE 3000
-
-CMD [ "/run.sh" ]

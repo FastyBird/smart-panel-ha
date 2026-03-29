@@ -1,0 +1,11 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Handle Smart Panel service stop/crash
+# ==============================================================================
+
+declare exit_code=${1}
+
+if [[ "${exit_code}" -ne 0 ]] && [[ "${exit_code}" -ne 256 ]]; then
+    bashio::log.warning "Smart Panel exited with code ${exit_code}, restarting..."
+fi
