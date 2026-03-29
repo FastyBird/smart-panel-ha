@@ -1,0 +1,41 @@
+name: Smart Panel
+version: dev
+slug: smart-panel
+description: A customizable display interface for visualizing and controlling smart homes from any touchscreen
+url: https://github.com/fastybird/smart-panel-ha
+arch:
+  - amd64
+  - aarch64
+  - armv7
+startup: application
+boot: auto
+init: false
+
+# Ingress configuration - embeds the panel in the HA sidebar
+ingress: true
+ingress_port: 3000
+panel_icon: mdi:view-dashboard
+panel_title: Smart Panel
+
+# Ports - null means ingress-only (not exposed to host)
+ports:
+  3000/tcp: null
+
+# Volume mappings
+map:
+  - config:rw
+  - ssl:ro
+  - share:rw
+
+# User-configurable options
+options:
+  log_level: info
+  token_secret: ""
+
+schema:
+  log_level: list(debug|info|warn|error)
+  token_secret: str?
+
+# Resource limits
+environment:
+  NODE_ENV: production

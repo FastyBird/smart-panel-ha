@@ -1,0 +1,9 @@
+configuration:
+  log_level:
+    name: Log Level
+    description: The verbosity level for application logging
+  token_secret:
+    name: Token Secret
+    description: >-
+      Secret key used for authentication token encryption.
+      Leave empty to auto-generate on each startup.
