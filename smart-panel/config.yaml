@@ -1,11 +1,10 @@
 name: Smart Panel
-version: "1.0.0"
+version: "1.0.1"
 slug: smart-panel
 description: >-
   A customizable display interface for visualizing and controlling smart homes
   from any touchscreen
 url: https://github.com/fastybird/smart-panel-ha
-image: ghcr.io/fastybird/smart-panel-{arch}
 arch:
   - amd64
   - aarch64

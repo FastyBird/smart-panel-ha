@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1] - 2026-04-01
+
+### Fixed
+
+- Remove default `image` from `config.yaml` so the Supervisor **builds locally**; anonymous pulls from GHCR failed with **403 denied** when packages were private or unpublished
+
 ## [1.0.0] - 2026-04-01
 
 ### Changed
@@ -17,7 +23,6 @@
 ### Added
 
 - `icon.png` for the add-on store
-- `image` in `config.yaml` pointing at published GHCR images per architecture
 
 ## [dev] - Unreleased
 
