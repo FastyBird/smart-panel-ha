@@ -18,7 +18,7 @@ fi
 
 export NODE_ENV="production"
 export FB_BACKEND_PORT="3000"
-export FB_APP_HOST="0.0.0.0"
+export FB_APP_HOST="127.0.0.1"
 export FB_CONFIG_PATH="/data/config"
 export FB_DB_PATH="/data/db"
 export FB_ADMIN_UI_PATH="/app/node_modules/@fastybird/smart-panel-admin/dist"
