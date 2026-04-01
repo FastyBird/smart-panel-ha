@@ -17,7 +17,7 @@ FastyBird Smart Panel provides:
 2. Navigate to **Settings** > **Add-ons** > **Add-on Store**
 3. Click the three-dot menu in the top right and select **Repositories**
 4. Add this repository URL: `https://github.com/fastybird/smart-panel-ha`
-5. Find **Smart Panel** in the add-on store and click **Install** (the Supervisor builds the image on your machine; the first install can take several minutes on a Raspberry Pi)
+5. Find **Smart Panel** in the add-on store and click **Install** (the Supervisor pulls the prebuilt image from GitHub Container Registry; ensure the package is **public**)
 6. Start the add-on and access it from the sidebar
 
 ## Configuration
@@ -32,7 +32,7 @@ token_secret: ""
 | `log_level` | Application log level (`debug`, `info`, `warn`, `error`) | `info` |
 | `token_secret` | Secret for auth token encryption. Leave empty to auto-generate each start; set a fixed value to keep sessions across restarts | *(empty)* |
 
-**Optional — prebuilt images:** If you publish images to GitHub Container Registry and set each package to **public**, you can add `image: ghcr.io/fastybird/smart-panel-{arch}` to `smart-panel/config.yaml` (with `version` matching the image tag) so the Supervisor pulls instead of building. Until those images exist and are public, the repository is configured for **local builds only** so installation works without registry access.
+**Image:** The add-on uses **`ghcr.io/fastybird/smart-panel`** with the tag in `version` (for example `0.4.0-alpha`), matching `docker pull ghcr.io/fastybird/smart-panel:0.4.0-alpha`. To **build on the HA host** instead (development or private registry), remove the `image` line from `smart-panel/config.yaml` and align `version` with your workflow.
 
 ## Support
 

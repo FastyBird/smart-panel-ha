@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0-alpha] - 2026-04-01
+
+### Changed
+
+- Point `image` at **`ghcr.io/fastybird/smart-panel`** with tag **`0.4.0-alpha`** (multi-arch manifest; same reference as `docker pull ghcr.io/fastybird/smart-panel:0.4.0-alpha`)
+
 ## [1.0.1] - 2026-04-01
 
 ### Fixed

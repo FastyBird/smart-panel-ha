@@ -44,21 +44,17 @@ All persistent data is stored in the add-on's `/data` directory, which survives 
 
 ## How the image is installed
 
-By default this add-on does **not** set an `image` in `config.yaml`, so the Supervisor **builds the Docker image on your Home Assistant host** from the `Dockerfile` when you click Install. That avoids depending on GitHub Container Registry and works even when no prebuilt image exists. The first build can take a long time on low-power hardware (for example Raspberry Pi) because it runs `npm install` and compiles native Node modules.
+The add-on lists a **single multi-arch** image (no `{arch}` in the name):
 
-### Optional: pull prebuilt images from GHCR
-
-If you publish multi-arch images with CI (for example `ghcr.io/fastybird/smart-panel-aarch64:1.0.0`) you can add to `config.yaml`:
-
-```yaml
-image: ghcr.io/fastybird/smart-panel-{arch}
+```text
+ghcr.io/fastybird/smart-panel:<version>
 ```
 
-Ensure `version` matches the image tag. **Important:** each package on GHCR must be **public**, or anonymous pulls fail with **403 / denied** and the add-on cannot install.
+Example: `docker pull ghcr.io/fastybird/smart-panel:0.4.0-alpha`. The `version` field in `config.yaml` must match the image tag. The GitHub Container Registry package must be **public**, otherwise pulls fail with **403 / denied**.
 
-## Building locally (developers)
+### Building locally instead (developers)
 
-With no `image` key, every install or rebuild uses the `Dockerfile` in this repository. To pin the Smart Panel npm release, edit `build.yaml` (`SMART_PANEL_VERSION`) or pass build args when building manually.
+Remove the `image` line from `config.yaml`. The Supervisor will then build from the `Dockerfile` on your Home Assistant host (slower on low-power devices). To pin the npm release used in that build, edit `build.yaml` (`SMART_PANEL_VERSION`) or pass build args to `docker build`.
 
 ## Accessing the Panel
 
