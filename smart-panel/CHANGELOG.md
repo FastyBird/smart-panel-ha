@@ -1,12 +1,18 @@
 # Changelog
 
-## [0.5.0-alpha] - 2026-04-01
+## [0.7.0-alpha] - 2026-04-02
+
+### Changed
+
+- Bump to `@fastybird/smart-panel@0.7.0-alpha.0` (includes migration fixes)
 
 ### Fixed
 
 - Restore multi-stage Docker build from npm packages instead of pulling a pre-built image that was missing runtime dependencies (`class-validator`, etc.)
 - Fix GitHub Actions: lowercase Docker image tags (`FastyBird` → `fastybird`) to satisfy Docker registry naming rules
-- Pin `SMART_PANEL_VERSION` to `0.5.0-alpha.1` in `build.yaml` (the `latest` npm dist-tag pointed to the outdated `0.1.0-alpha.5`)
+- Drop armv7 architecture (Node.js 24 removed 32-bit ARM support)
+- Move backend to port 3001 to avoid bind conflict with nginx ingress on port 3000
+- Rewrite absolute asset/API paths via nginx `sub_filter` for HA ingress compatibility
 
 ## [0.4.0-alpha.1] - 2026-04-01
 
