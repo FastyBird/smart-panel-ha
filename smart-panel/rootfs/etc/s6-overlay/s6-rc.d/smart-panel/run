@@ -21,7 +21,7 @@ export FB_BACKEND_PORT="3000"
 export FB_APP_HOST="0.0.0.0"
 export FB_CONFIG_PATH="/data/config"
 export FB_DB_PATH="/data/db"
-export FB_ADMIN_UI_PATH="/app/public"
+export FB_ADMIN_UI_PATH="/app/node_modules/@fastybird/smart-panel-admin/dist"
 export FB_TOKEN_SECRET="${token_secret}"
 export FB_LOG_LEVEL="${log_level}"
 
@@ -35,4 +35,4 @@ bashio::log.info "Starting FastyBird Smart Panel..."
 bashio::log.info "Log level: ${log_level}"
 
 cd /app || bashio::exit.nok "Could not change to app directory"
-exec node dist/main.js
+exec node /app/node_modules/@fastybird/smart-panel-backend/dist/main.js

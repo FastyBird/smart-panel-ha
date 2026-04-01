@@ -1,64 +1,42 @@
 ARG BUILD_FROM
 # =============================================================================
-# Stage 1: Build the smart-panel backend and admin from source
+# Stage 1: Install published @fastybird/smart-panel (backend + admin) from npm
 # =============================================================================
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
-ARG SMART_PANEL_VERSION=main
+ARG SMART_PANEL_VERSION=latest
 
+# sqlite3, bcrypt, etc. ship native addons — need a toolchain on Alpine
 RUN apk add --no-cache \
-    git \
     python3 \
     make \
     g++ \
     sqlite-dev
 
-WORKDIR /build
+WORKDIR /app
 
-# Clone the smart-panel repository
-RUN git clone --depth 1 --branch "${SMART_PANEL_VERSION}" \
-    https://github.com/FastyBird/smart-panel.git .
-
-# Enable and activate pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-# Install all dependencies
-RUN pnpm install --frozen-lockfile
-
-# Build the backend
-RUN pnpm --filter @fastybird/smart-panel-backend build
-
-# Build the admin interface
-RUN pnpm --filter @fastybird/smart-panel-admin build
-
-# Prune dev dependencies for backend production install
-WORKDIR /build/apps/backend
-RUN pnpm install --prod --ignore-scripts
+RUN echo "{\"name\":\"smart-panel-ha-runtime\",\"private\":true,\"dependencies\":{\"@fastybird/smart-panel\":\"${SMART_PANEL_VERSION}\"}}" > package.json \
+    && npm install --omit=dev
 
 # =============================================================================
 # Stage 2: Production image using Home Assistant community base
 # =============================================================================
 FROM ${BUILD_FROM}
 
-# Install runtime dependencies
+# Node.js 24 (same major as upstream packages); avoids older apk node on the base image
+COPY --from=node:24-alpine /usr/local /usr/local
+ENV PATH="/usr/local/bin:${PATH}"
+
 RUN apk add --no-cache \
-    nodejs \
-    npm \
     nginx \
     sqlite
 
 WORKDIR /app
 
-# Copy built backend
-COPY --from=builder /build/apps/backend/dist ./dist
-COPY --from=builder /build/apps/backend/node_modules ./node_modules
-COPY --from=builder /build/apps/backend/package.json ./package.json
+COPY --from=builder /app /app
 
-# Copy built admin UI to be served by the backend
-COPY --from=builder /build/apps/admin/dist ./public
-
-# Create persistent data directories
-RUN mkdir -p /data/db /data/config
+# Create persistent data directories and nginx include dir for ingress config
+RUN mkdir -p /data/db /data/config /etc/nginx/servers
 
 # Copy rootfs overlay (s6-overlay services, nginx config)
 COPY rootfs /
@@ -75,4 +53,4 @@ LABEL \
     io.hass.name="Smart Panel" \
     io.hass.description="A customizable display interface for visualizing and controlling smart homes" \
     io.hass.type="addon" \
-    io.hass.version="dev"
+    io.hass.version="1.0.0"

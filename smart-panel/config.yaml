@@ -1,15 +1,18 @@
 name: Smart Panel
-version: dev
+version: "1.0.0"
 slug: smart-panel
-description: A customizable display interface for visualizing and controlling smart homes from any touchscreen
+description: >-
+  A customizable display interface for visualizing and controlling smart homes
+  from any touchscreen
 url: https://github.com/fastybird/smart-panel-ha
+image: ghcr.io/fastybird/smart-panel-{arch}
 arch:
   - amd64
   - aarch64
   - armv7
 startup: application
 boot: auto
-init: true
+init: false
 
 # Ingress configuration - embeds the panel in the HA sidebar
 ingress: true

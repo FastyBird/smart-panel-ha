@@ -3,4 +3,5 @@ build_from:
   aarch64: ghcr.io/hassio-addons/base:17.2.4
   armv7: ghcr.io/hassio-addons/base:17.2.4
 args:
-  SMART_PANEL_VERSION: main
+  # npm dist-tag or semver for https://www.npmjs.com/package/@fastybird/smart-panel
+  SMART_PANEL_VERSION: latest

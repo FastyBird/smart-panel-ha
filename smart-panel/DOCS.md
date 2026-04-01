@@ -21,6 +21,10 @@ The add-on runs the Smart Panel backend (NestJS) server which:
 3. Handles WebSocket connections for real-time updates
 4. Stores data in a local SQLite database
 
+The Docker image installs the published npm package **`@fastybird/smart-panel`**, which pulls in the backend and admin UI as dependencies. The runtime uses **Node.js 24** (aligned with upstream). To pin a specific release when building yourself, set the Docker build argument `SMART_PANEL_VERSION` (for example `0.1.0-alpha.5` or `latest`) in `build.yaml` or when invoking `docker build`.
+
+To install from **GitHub Packages** instead of the public npm registry, add an `.npmrc` in the build context (for example `//npm.pkg.github.com/:_authToken=${NPM_TOKEN}` and scope registry) and pass a secret at build time; the default Dockerfile uses the npmjs registry only.
+
 ## Configuration
 
 ### Option: `log_level`
@@ -37,6 +41,16 @@ All persistent data is stored in the add-on's `/data` directory, which survives 
 
 - `/data/db/` — SQLite database files
 - `/data/config/` — Application configuration
+
+## Prebuilt images
+
+The add-on is distributed as container images on GitHub Container Registry. After you add this repository in the Add-on Store, Home Assistant pulls the image matching your architecture and the version in `config.yaml`.
+
+If the package is not yet public, open the **Packages** section of this GitHub organization or user, select the `smart-panel-*` image, and set its visibility to **public** so Home Assistant can pull it.
+
+## Building locally (developers)
+
+To build the image on your Home Assistant host instead of pulling from GHCR, remove the `image` line from the add-on `config.yaml` and update the repository in the store so the Supervisor rebuilds from the `Dockerfile`.
 
 ## Accessing the Panel
 

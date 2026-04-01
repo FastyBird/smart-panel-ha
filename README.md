@@ -24,11 +24,15 @@ FastyBird Smart Panel provides:
 
 ```yaml
 log_level: info
+token_secret: ""
 ```
 
 | Option | Description | Default |
 |---|---|---|
 | `log_level` | Application log level (`debug`, `info`, `warn`, `error`) | `info` |
+| `token_secret` | Secret for auth token encryption. Leave empty to auto-generate each start; set a fixed value to keep sessions across restarts | *(empty)* |
+
+Prebuilt multi-arch images are published to GitHub Container Registry (`ghcr.io`). The Supervisor installs from those images by default. To force a local build on your Home Assistant machine instead (for example when developing the add-on), remove the `image` key from `smart-panel/config.yaml` in your fork before adding the repository.
 
 ## Support
 
