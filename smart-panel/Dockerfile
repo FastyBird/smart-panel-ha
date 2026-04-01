@@ -15,9 +15,10 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
-# Pin typeorm at the app root so `node ./node_modules/typeorm/cli.js` works. The
-# @fastybird/smart-panel migration scripts use that path; npm can nest typeorm
-# under the backend only, which makes MODULE_NOT_FOUND for cli.js.
+# Pin typeorm at the app root so `node ./node_modules/typeorm/cli.js` is available
+# for manual migration commands. Migrations auto-run at startup via NestJS
+# (FB_DB_MIGRATIONS_RUN=true), but having the CLI accessible is useful for
+# troubleshooting. Without the pin, npm may nest typeorm under the backend only.
 RUN echo "{\"name\":\"smart-panel-ha-runtime\",\"private\":true,\"dependencies\":{\"@fastybird/smart-panel\":\"${SMART_PANEL_VERSION}\",\"typeorm\":\"^0.3.28\"}}" > package.json \
     && npm install --omit=dev
 

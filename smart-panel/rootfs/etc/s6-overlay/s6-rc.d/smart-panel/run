@@ -24,12 +24,54 @@ export FB_DB_PATH="/data/db"
 export FB_ADMIN_UI_PATH="/app/node_modules/@fastybird/smart-panel-admin/dist"
 export FB_TOKEN_SECRET="${token_secret}"
 export FB_LOG_LEVEL="${log_level}"
+export FB_DB_MIGRATIONS_RUN="true"
 
 # Make HA Supervisor token available to the backend
 export SUPERVISOR_TOKEN="${SUPERVISOR_TOKEN:-}"
 
 # Ensure data directories exist
 mkdir -p /data/db /data/config
+
+# Generate initial config.yaml on first start (preserves existing config)
+if [ ! -f /data/config/config.yaml ]; then
+    bashio::log.info "First start detected, generating initial configuration..."
+
+    declare influx_host
+    declare influx_database
+    declare influx_username
+    declare influx_password
+    declare influx_enabled="false"
+
+    influx_host=$(bashio::config 'influxdb_host')
+    influx_database=$(bashio::config 'influxdb_database')
+    influx_username=$(bashio::config 'influxdb_username')
+    influx_password=$(bashio::config 'influxdb_password')
+
+    if bashio::var.has_value "${influx_host}"; then
+        influx_enabled="true"
+    fi
+
+    cat > /data/config/config.yaml <<EOF
+plugins:
+  influx-v1-plugin:
+    enabled: ${influx_enabled}
+    host: ${influx_host:-127.0.0.1}
+    database: ${influx_database:-fastybird}
+    username: ${influx_username:-}
+    password: ${influx_password:-}
+  memory-storage-plugin:
+    enabled: true
+  devices-home-assistant-plugin:
+    enabled: true
+modules:
+  storage-module:
+    enabled: true
+    primary_storage: influx-v1-plugin
+    fallback_storage: memory-storage-plugin
+EOF
+
+    bashio::log.info "Initial configuration generated"
+fi
 
 bashio::log.info "Starting FastyBird Smart Panel..."
 bashio::log.info "Log level: ${log_level}"

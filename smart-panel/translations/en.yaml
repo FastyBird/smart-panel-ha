@@ -7,3 +7,17 @@ configuration:
     description: >-
       Secret key used for authentication token encryption.
       Leave empty to auto-generate on each startup.
+  influxdb_host:
+    name: InfluxDB Host
+    description: >-
+      Hostname or IP address of your InfluxDB instance.
+      Leave empty to use in-memory storage (no persistent time-series data).
+  influxdb_database:
+    name: InfluxDB Database
+    description: Database name for storing time-series data
+  influxdb_username:
+    name: InfluxDB Username
+    description: Username for InfluxDB authentication (leave empty if not required)
+  influxdb_password:
+    name: InfluxDB Password
+    description: Password for InfluxDB authentication (leave empty if not required)
