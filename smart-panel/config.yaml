@@ -5,7 +5,7 @@ description: >-
   A customizable display interface for visualizing and controlling smart homes
   from any touchscreen
 url: https://github.com/fastybird/smart-panel-ha
-image: ghcr.io/fastybird/smart-panel
+image: "ghcr.io/fastybird/smart-panel-{arch}"
 arch:
   - amd64
   - aarch64
