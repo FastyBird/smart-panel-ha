@@ -15,7 +15,10 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
-RUN echo "{\"name\":\"smart-panel-ha-runtime\",\"private\":true,\"dependencies\":{\"@fastybird/smart-panel\":\"${SMART_PANEL_VERSION}\"}}" > package.json \
+# Pin typeorm at the app root so `node ./node_modules/typeorm/cli.js` works. The
+# @fastybird/smart-panel migration scripts use that path; npm can nest typeorm
+# under the backend only, which makes MODULE_NOT_FOUND for cli.js.
+RUN echo "{\"name\":\"smart-panel-ha-runtime\",\"private\":true,\"dependencies\":{\"@fastybird/smart-panel\":\"${SMART_PANEL_VERSION}\",\"typeorm\":\"^0.3.28\"}}" > package.json \
     && npm install --omit=dev
 
 # =============================================================================
@@ -53,4 +56,4 @@ LABEL \
     io.hass.name="Smart Panel" \
     io.hass.description="A customizable display interface for visualizing and controlling smart homes" \
     io.hass.type="addon" \
-    io.hass.version="0.4.0-alpha"
+    io.hass.version="0.4.0-alpha.1"

@@ -32,7 +32,7 @@ token_secret: ""
 | `log_level` | Application log level (`debug`, `info`, `warn`, `error`) | `info` |
 | `token_secret` | Secret for auth token encryption. Leave empty to auto-generate each start; set a fixed value to keep sessions across restarts | *(empty)* |
 
-**Image:** The add-on uses **`ghcr.io/fastybird/smart-panel`** with the tag in `version` (for example `0.4.0-alpha`), matching `docker pull ghcr.io/fastybird/smart-panel:0.4.0-alpha`. To **build on the HA host** instead (development or private registry), remove the `image` line from `smart-panel/config.yaml` and align `version` with your workflow.
+**Image:** The add-on uses **`ghcr.io/fastybird/smart-panel`** with the tag in `version` (for example `0.4.0-alpha.1`), matching `docker pull ghcr.io/fastybird/smart-panel:<version>`. The container image should be **built from this repository’s `smart-panel/Dockerfile`** and pushed to that name. To **build on the HA host** instead, remove the `image` line from `smart-panel/config.yaml`.
 
 ## Support
 

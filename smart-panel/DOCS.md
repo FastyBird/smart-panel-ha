@@ -50,7 +50,9 @@ The add-on lists a **single multi-arch** image (no `{arch}` in the name):
 ghcr.io/fastybird/smart-panel:<version>
 ```
 
-Example: `docker pull ghcr.io/fastybird/smart-panel:0.4.0-alpha`. The `version` field in `config.yaml` must match the image tag. The GitHub Container Registry package must be **public**, otherwise pulls fail with **403 / denied**.
+Example: `docker pull ghcr.io/fastybird/smart-panel:0.4.0-alpha.1`. The `version` field in `config.yaml` must match the image tag. The GitHub Container Registry package must be **public**, otherwise pulls fail with **403 / denied**.
+
+Rebuild and push the image after changes to `smart-panel/Dockerfile` in this repo; the tag must match `version` in `config.yaml`.
 
 ### Building locally instead (developers)
 

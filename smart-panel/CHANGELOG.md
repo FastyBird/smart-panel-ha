@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0-alpha.1] - 2026-04-01
+
+### Fixed
+
+- Add **`typeorm`** as a direct npm dependency in the Docker build so `/app/node_modules/typeorm/cli.js` exists. Migration scripts in `@fastybird/smart-panel` call that path; without a hoisted `typeorm` package, Node reported **Cannot find module '.../typeorm/cli.js'**
+
 ## [0.4.0-alpha] - 2026-04-01
 
 ### Changed
