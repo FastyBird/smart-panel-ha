@@ -8,8 +8,8 @@ FROM node:24-alpine AS builder
 
 ARG SMART_PANEL_VERSION
 
-# Native-addon build tools (sqlite3, bcrypt, etc.)
-RUN apk add --no-cache python3 make g++ sqlite-dev
+# Native-addon build tools (sqlite3, bcrypt) and git (github: deps)
+RUN apk add --no-cache python3 make g++ sqlite-dev git
 
 WORKDIR /app
 

@@ -37,7 +37,6 @@ jobs:
         arch:
           - amd64
           - aarch64
-          - armv7
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -72,7 +71,6 @@ jobs:
           case "${{ matrix.arch }}" in
             amd64)   echo "platform=linux/amd64" >> "$GITHUB_OUTPUT" ;;
             aarch64) echo "platform=linux/arm64" >> "$GITHUB_OUTPUT" ;;
-            armv7)   echo "platform=linux/arm/v7" >> "$GITHUB_OUTPUT" ;;
           esac
 
       - name: Extract build args from build.yaml

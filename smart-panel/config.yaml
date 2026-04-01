@@ -9,7 +9,6 @@ image: ghcr.io/fastybird/smart-panel
 arch:
   - amd64
   - aarch64
-  - armv7
 startup: application
 boot: auto
 init: false
