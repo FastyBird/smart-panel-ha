@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0-alpha] - 2026-04-01
+
+### Fixed
+
+- Restore multi-stage Docker build from npm packages instead of pulling a pre-built image that was missing runtime dependencies (`class-validator`, etc.)
+- Fix GitHub Actions: lowercase Docker image tags (`FastyBird` → `fastybird`) to satisfy Docker registry naming rules
+- Pin `SMART_PANEL_VERSION` to `0.5.0-alpha.1` in `build.yaml` (the `latest` npm dist-tag pointed to the outdated `0.1.0-alpha.5`)
+
 ## [0.4.0-alpha.1] - 2026-04-01
 
 ### Fixed
