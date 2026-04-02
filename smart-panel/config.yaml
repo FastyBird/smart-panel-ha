@@ -25,11 +25,14 @@ homeassistant_api: true
 hassio_api: true
 auth_api: true
 
-# Ports - null means not exposed to host by default
+# Web UI direct access
+webui: http://[HOST]:[PORT:3000]
+
+# Ports
 ports:
-  3000/tcp: null
+  3000/tcp: 3000
 ports_description:
-  3000/tcp: Web interface (not needed when using Ingress)
+  3000/tcp: Web interface
 
 # Volume mappings
 map:

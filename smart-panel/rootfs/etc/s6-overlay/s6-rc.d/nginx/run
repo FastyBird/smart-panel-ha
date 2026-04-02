@@ -1,11 +1,8 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
 # ==============================================================================
-# Start nginx reverse proxy
+# Nginx is no longer used — backend serves directly on ingress port.
+# This service is kept as a no-op to satisfy s6 dependency declarations.
 # ==============================================================================
 
-bashio::log.info "Waiting for Smart Panel backend to become available..."
-bashio::net.wait_for 3001 localhost 300
-
-bashio::log.info "Starting nginx..."
-exec nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+exec sleep infinity
