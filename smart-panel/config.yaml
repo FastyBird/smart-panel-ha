@@ -17,7 +17,7 @@ init: false
 ingress: true
 ingress_port: 0
 ingress_stream: true
-panel_icon: mdi:view-dashboard
+panel_icon: mdi:tablet-dashboard
 panel_title: Smart Panel
 
 # Host network for CoAP/mDNS multicast (Shelly, WLED discovery)
