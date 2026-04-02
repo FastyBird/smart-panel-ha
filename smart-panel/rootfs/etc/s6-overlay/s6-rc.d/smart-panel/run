@@ -73,9 +73,15 @@ EOF
     bashio::log.info "Initial configuration generated"
 fi
 
+cd /app || bashio::exit.nok "Could not change to app directory"
+
+# Run migrations via CLI (idempotent — safe on every start)
+bashio::log.info "Running database migrations..."
+node /app/node_modules/typeorm/cli.js migration:run \
+    -d /app/node_modules/@fastybird/smart-panel-backend/dist/dataSource.js \
+    || bashio::log.warning "Migration had issues"
+
 bashio::log.info "Starting FastyBird Smart Panel..."
 bashio::log.info "Log level: ${log_level}"
-
-cd /app || bashio::exit.nok "Could not change to app directory"
 
 exec node /app/node_modules/@fastybird/smart-panel-backend/dist/main.js
