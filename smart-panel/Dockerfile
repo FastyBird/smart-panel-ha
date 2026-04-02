@@ -2,10 +2,23 @@ ARG BUILD_FROM
 ARG SMART_PANEL_VERSION=latest
 
 # ---------------------------------------------------------------------------
-# Stage 1 – grab the pre-built app from the upstream multi-arch image
-# (native amd64 + arm64 builds, no QEMU compilation needed)
+# Stage 1 – install @fastybird/smart-panel from npm with production deps
 # ---------------------------------------------------------------------------
-FROM ghcr.io/fastybird/smart-panel:${SMART_PANEL_VERSION} AS upstream
+FROM node:24-alpine AS builder
+
+ARG SMART_PANEL_VERSION
+
+# Native-addon build tools (sqlite3, bcrypt) and git (github: deps)
+RUN apk add --no-cache python3 make g++ sqlite-dev git
+
+WORKDIR /app
+
+# Create a minimal package.json that pulls the smart-panel package.
+# Hoist typeorm so /app/node_modules/typeorm/cli.js is reachable by
+# migration helper scripts that hard-code that path.
+RUN printf '{"name":"smart-panel-ha-runtime","private":true,"dependencies":{"@fastybird/smart-panel":"%s","typeorm":"^0.3.28"}}' \
+      "${SMART_PANEL_VERSION}" > package.json \
+ && npm install --omit=dev
 
 # ---------------------------------------------------------------------------
 # Stage 2 – production image on the Home Assistant base
@@ -20,8 +33,8 @@ RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 # Runtime dependencies
 RUN apk add --no-cache nginx sqlite sqlite-libs libstdc++
 
-# Application (pre-compiled with native modules for the correct arch)
-COPY --from=upstream /app /app
+# Application
+COPY --from=builder /app /app
 
 # Ensure directories exist
 RUN mkdir -p /data/db /data/config /etc/nginx/servers

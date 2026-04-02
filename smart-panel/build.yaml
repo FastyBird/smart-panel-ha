@@ -2,5 +2,5 @@ build_from:
   amd64: ghcr.io/hassio-addons/base:17.2.4
   aarch64: ghcr.io/hassio-addons/base:17.2.4
 args:
-  # Docker image tag for ghcr.io/fastybird/smart-panel
-  SMART_PANEL_VERSION: 0.7.0-alpha
+  # npm version for @fastybird/smart-panel
+  SMART_PANEL_VERSION: 0.7.0-alpha.0
