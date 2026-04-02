@@ -20,6 +20,9 @@ ingress_stream: true
 panel_icon: mdi:view-dashboard
 panel_title: Smart Panel
 
+# Host network for CoAP/mDNS multicast (Shelly, WLED discovery)
+host_network: true
+
 # Home Assistant API access
 homeassistant_api: true
 hassio_api: true
