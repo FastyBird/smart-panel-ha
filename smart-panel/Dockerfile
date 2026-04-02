@@ -50,4 +50,4 @@ LABEL \
     io.hass.name="Smart Panel" \
     io.hass.description="A customizable display interface for visualizing and controlling smart homes" \
     io.hass.type="addon" \
-    io.hass.version="0.7.0-alpha"
+    io.hass.version="0.8.0-alpha"
