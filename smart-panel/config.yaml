@@ -15,7 +15,7 @@ init: false
 
 # Ingress configuration - embeds the panel in the HA sidebar
 ingress: true
-ingress_port: 3000
+ingress_port: 0
 ingress_stream: true
 panel_icon: mdi:view-dashboard
 panel_title: Smart Panel

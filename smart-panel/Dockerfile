@@ -31,7 +31,7 @@ COPY --from=node:24-alpine /usr/local/lib/node_modules /usr/local/lib/node_modul
 RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Runtime dependencies
-RUN apk add --no-cache sqlite sqlite-libs libstdc++
+RUN apk add --no-cache nginx sqlite sqlite-libs libstdc++
 
 # Application
 COPY --from=builder /app /app

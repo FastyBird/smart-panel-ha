@@ -1,7 +1,17 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
 # ==============================================================================
-# Nginx is no longer used — kept as no-op for s6 service registration.
+# Render nginx configuration templates for ingress
 # ==============================================================================
 
-exit 0
+bashio::log.info "Generating nginx ingress configuration..."
+
+bashio::var.json \
+    interface "$(bashio::addon.ip_address)" \
+    port "^$(bashio::addon.ingress_port)" \
+    ingress_entry "$(bashio::addon.ingress_entry)" \
+    | tempio \
+        -template /etc/nginx/templates/ingress.gtpl \
+        -out /etc/nginx/servers/ingress.conf
+
+bashio::log.info "Nginx configuration generated successfully"
