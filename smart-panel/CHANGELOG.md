@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0-alpha] - 2026-04-03
+## 0.2.0-alpha
 
 ### Added
 
@@ -8,7 +8,6 @@
 - Dynamic storage plugin selector in admin UI (disabled plugins shown grayed out)
 - Auto-detect Home Assistant add-on platform via `SUPERVISOR_TOKEN` environment variable
 - Raspberry Pi throttle status reporting when running as HA add-on on RPi hardware
-- `PLATFORM_TYPE=home-assistant` environment variable for platform detection
 
 ### Fixed
 
@@ -17,7 +16,7 @@
 - Shelly V1 (Gen 1) — HTTP ping fallback when CoAP multicast is lost, device listener cleanup
 - Platform API — fix throttle status return type, add 30s timeout to Supervisor API calls
 
-## [0.1.0-alpha] - 2026-04-02
+## 0.1.0-alpha
 
 ### Added
 
