@@ -26,7 +26,8 @@ export FB_TOKEN_SECRET="${token_secret}"
 export FB_LOG_LEVEL="${log_level}"
 export FB_DB_MIGRATIONS_RUN="true"
 
-# Make HA Supervisor token available to the backend
+# HA platform detection and Supervisor token
+export PLATFORM_TYPE="home-assistant"
 export SUPERVISOR_TOKEN="${SUPERVISOR_TOKEN:-}"
 
 # Ensure data directories exist
