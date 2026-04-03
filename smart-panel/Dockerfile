@@ -1,4 +1,4 @@
-ARG BUILD_FROM
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:17.2.4
 ARG SMART_PANEL_VERSION=latest
 
 # ---------------------------------------------------------------------------
