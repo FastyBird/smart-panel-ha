@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0-alpha.2
+
+### Changed
+
+- Update the bundled `@fastybird/smart-panel` package to `1.1.0-alpha.1`
+
 ## 0.2.0-alpha
 
 ### Added
